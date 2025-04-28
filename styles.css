@@ -133,6 +133,88 @@ h2 {
 }
 
 /* Atom Model Styles */
+
+.atom-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+.atom-content {
+  background: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  width: 400px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Nucleus & Particles */
+.nucleus {
+  width: 60px;
+  height: 60px;
+  background: #ff6666;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+}
+
+.proton, .neutron {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.proton {
+  background: #ff4444;
+  color: white;
+}
+
+.neutron {
+  background: #666;
+  color: white;
+}
+
+/* Electron Orbits */
+.orbit {
+  border: 1px dashed #ccc;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit-1 { width: 140px; height: 140px; }
+.orbit-2 { width: 220px; height: 220px; }
+
+.electron {
+  width: 12px;
+  height: 12px;
+  background: #4488ff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
 .atom-model {
     position: relative;
     width: 200px;
