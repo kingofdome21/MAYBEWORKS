@@ -21,6 +21,153 @@
 </header>
 <main>
 <!-- Home View -->
+<button onclick="openAtomBuilder()">Atom Builder</button>
+
+<!-- Atom Builder Modal -->
+<div id="atomBuilderModal" class="atom-modal">
+  <div class="atom-content">
+    <span class="close" onclick="closeAtomBuilder()">&times;</span>
+    <div class="atom-structure">
+      <div class="nucleus" id="nucleus"></div>
+      <div class="orbit orbit-1"></div>
+      <div class="orbit orbit-2"></div>
+    </div>
+    <div class="controls">
+      <button onclick="addParticle('proton')">Add Proton</button>
+      <button onclick="addParticle('neutron')">Add Neutron</button>
+      <button onclick="addParticle('electron')">Add Electron</button>
+    </div>
+    <div id="particleCount" class="counter"></div>
+    <div id="elementMessage"></div>
+  </div>
+</div>
+
+<style>
+/* Add these styles to your CSS */
+.atom-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+.atom-content {
+  background: white;
+  margin: 15% auto;
+  padding: 20px;
+  width: 400px;
+  position: relative;
+}
+
+.nucleus {
+  width: 50px;
+  height: 50px;
+  background: #ff5555;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit {
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit-1 { width: 120px; height: 120px; }
+.orbit-2 { width: 200px; height: 200px; }
+
+.counter {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.electron {
+  width: 10px;
+  height: 10px;
+  background: #5555ff;
+  border-radius: 50%;
+  position: absolute;
+}
+</style>
+
+<script>
+let particles = { protons: 0, neutrons: 0, electrons: 0 };
+let electronCount = 0;
+
+function openAtomBuilder() {
+  particles = { protons: 0, neutrons: 0, electrons: 0 };
+  electronCount = 0;
+  document.getElementById('atomBuilderModal').style.display = 'block';
+  updateDisplay();
+}
+
+function closeAtomBuilder() {
+  document.getElementById('atomBuilderModal').style.display = 'none';
+  document.getElementById('nucleus').innerHTML = '';
+  document.querySelectorAll('.electron').forEach(el => el.remove());
+}
+
+function addParticle(type) {
+  particles[type + 's']++;
+  if (type === 'electron') addElectron();
+  updateDisplay();
+  checkElement();
+}
+
+function addElectron() {
+  const orbit = electronCount < 2 ? 1 : 2;
+  const electron = document.createElement('div');
+  electron.className = 'electron';
+  
+  // Position electron on orbit
+  const angle = (electronCount % 2) * 180;
+  const orbitSize = orbit === 1 ? 120 : 200;
+  const radius = orbitSize/2;
+  electron.style.transform = `
+    translate(${Math.cos(angle * Math.PI/180) * radius}px, 
+    ${Math.sin(angle * Math.PI/180) * radius}px)
+  `;
+
+  document.querySelector('.atom-structure').appendChild(electron);
+  electronCount++;
+}
+
+function updateDisplay() {
+  const countElement = document.getElementById('particleCount');
+  countElement.textContent = 
+    Protons: ${particles.protons}, Neutrons: ${particles.neutrons}, Electrons: ${particles.electrons};
+  
+  // Update nucleus particles
+  const nucleus = document.getElementById('nucleus');
+  nucleus.innerHTML = 
+    Array(particles.protons).fill('<div class="proton">+</div>').join('') +
+    Array(particles.neutrons).fill('<div class="neutron">•</div>').join('');
+}
+
+function checkElement() {
+  const messageElement = document.getElementById('elementMessage');
+  const elements = {
+    1: 'Hydrogen',
+    2: 'Helium',
+    3: 'Lithium'
+  };
+  
+  if (elements[particles.protons] && particles.electrons === particles.protons) {
+    messageElement.textContent = You've built ${elements[particles.protons]}!;
+  } else {
+    messageElement.textContent = '';
+  }
+}
+</script>
 <div class="content-container" id="home-view">
 <div class="explore-box" id="atom-box">
 <h2 data-translate-key="exploreAtom">EXPLORE ATOM</h2>
