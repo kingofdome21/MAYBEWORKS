@@ -631,7 +631,39 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(`[Lang] Finished updating language to: ${lang}`); // Log end
     }
     
-    // Event Listeners
+   function addElectron() {
+  const orbitNumber = Math.ceil((electronCount + 1) / 2);
+  const orbit = document.querySelector(.orbit-${orbitNumber});
+  
+  const electron = document.createElement('div');
+  electron.className = 'electron';
+  
+  // Calculate orbital position
+  const angle = (electronCount % 2) * 180; // Alternate positions
+  const radius = orbit.offsetWidth / 2;
+  
+  electron.style.transform = `
+    rotate(${angle}deg) 
+    translate(${radius}px) 
+    rotate(-${angle}deg)
+  `;
+
+  orbit.appendChild(electron);
+  electronCount++;
+  particles.electrons++;
+}
+
+// Updated updateDisplay() for better particle rendering
+function updateDisplay() {
+  const nucleus = document.getElementById('nucleus');
+  nucleus.innerHTML = 
+    Array(particles.protons).fill(0).map(() => 
+      <div class="proton">+</div>
+    ).join('') +
+    Array(particles.neutrons).fill(0).map(() => 
+      <div class="neutron">•</div>
+    ).join('');
+} // Event Listeners
     
     // Home view navigation
     atomBox.addEventListener("click", showAtomView);
